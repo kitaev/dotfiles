@@ -43,7 +43,11 @@ syntax on
 set t_Co=256
 set background=dark
 colorscheme solarized
-set gfn=Inconsolata\ for\ Powerline\ 20
+if has("win32")
+  set gfn=Inconsolata\ for\ Powerline:h20
+else
+  set gfn=Inconsolata\ for\ Powerline\ 20
+endif
 set noshowmode
 
 set encoding=utf-8
@@ -105,7 +109,7 @@ set guioptions-=T
 set guioptions-=r
 
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\.git$'
+  \ 'dir': '\.git$\|node_modules$'
   \ }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -130,5 +134,6 @@ sunmap e
 
 map <silent> <F2> :set nolist!<CR>:IndentGuidesToggle<CR>
 map <silent> <F3> :let @/ = ""<CR>
+map <silent> <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
 
-autocmd FileType c,cpp,java,php,javascript,jade,css autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType c,cpp,java,php,javascript,jade,json,css autocmd BufWritePre <buffer> :%s/\s\+$//eset nocompatible
