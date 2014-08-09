@@ -1,0 +1,3 @@
+[Unit]
+Description=System is running on battery
+Conflicts=power-ac.target shutdown.target

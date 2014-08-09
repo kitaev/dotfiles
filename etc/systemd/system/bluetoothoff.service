@@ -1,0 +1,11 @@
+[Unit]
+Description = Powers off Bluetooth
+
+[Service]
+
+ExecStart = /etc/systemd/scripts/bluetoothoff
+Type = oneshot
+
+[Install]
+
+WantedBy=multi-user.target

@@ -42,11 +42,13 @@ runtime! macros/matchit.vim
 syntax on
 set t_Co=256
 set background=dark
+"let g:solarized_termcolors=256
 colorscheme solarized
 if has("win32")
   set gfn=Inconsolata\ for\ Powerline:h20
 else
-  set gfn=Inconsolata\ for\ Powerline\ 20
+  set gfn=Inconsolata\ for\ Powerline\ 16
+  set linespace=2
 endif
 set noshowmode
 

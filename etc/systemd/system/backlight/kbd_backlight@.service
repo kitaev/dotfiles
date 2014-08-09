@@ -1,0 +1,20 @@
+[Unit]
+Description=Load/Save Backlight Brightness of %p when on %i
+PartOf=%i.target
+
+After=sys-devices-platform-samsung-leds-samsung::kbd_backlight.device
+After=systemd-readahead-collect.service systemd-readahead-replay.service systemd-remount-fs.service
+Wants=sys-devices-platform-samsung-leds-samsung::kbd_backlight.device
+
+RequiresMountsFor=/var/lib/systemd
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStartPre=-/usr/bin/inotifywait -t 1 -e delete_self /var/lib/systemd/backlight/%p.lock
+ExecStartPre=/usr/bin/touch /var/lib/systemd/backlight/%p.lock
+ExecStart=/etc/systemd/backlight load %p /var/lib/systemd/backlight/%p@%i.backlight
+
+ExecStop=/etc/systemd/backlight save %p /var/lib/systemd/backlight/%p@%i.backlight
+ExecStopPost=/bin/rm /var/lib/systemd/backlight/%p.lock

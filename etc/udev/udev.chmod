@@ -1,0 +1,8 @@
+#!/bin/bash
+
+DEVPATH="$2"
+for (( i = 3; i <= $#; i += 1 ))
+do
+    FILEPATH="/sys$DEVPATH/${!i}"
+    `chmod $1 $FILEPATH`
+done

@@ -1,0 +1,21 @@
+!/bin/sh
+
+PATH=$HOME/tools/idea/bin:$HOME/tools/mongodb/bin:$HOME/tools/eclipse:$PATH
+export PATH
+
+syndaemon -d -R -k -i 1
+systemctl --user start wm.target
+
+xset r rate 200 30
+setxkbmap -layout us,ru -option grp:rctrl_rshift_toggle,caps:escape,compose:ralt
+hsetroot -solid "#000000"
+
+if [ -x /usr/bin/compton ] ; then
+  /usr/bin/compton -bGC &
+fi
+if [ -x /usr/bin/xautolock ] ; then
+  /usr/bin/xautolock -detectsleep -time 1 -locker 'i3lock -d -c 333333' &
+fi
+if [ -x /usr/bin/xautosuspend ] ; then
+  /usr/bin/xautosuspend -detectsleep -time 3 -locker 'systemctl suspend' &
+fi

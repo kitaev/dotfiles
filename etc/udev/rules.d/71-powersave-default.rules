@@ -1,0 +1,18 @@
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan*", RUN+="/sbin/iw dev %k set power_save on"
+ACTION=="add", SUBSYSTEM=="pci", ATTR{power/control}="auto"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{power/control}="auto"
+ACTION=="add", SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_policy}="min_power"
+
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="samsung", ATTR{performance_level}="silent"
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="samsung", ATTR{battery_life_extender}="1"
+ACTION=="add", SUBSYSTEM=="rfkill", ATTR{type}=="bluetooth", ATTR{name}="samsung-bluetooth", ATTR{state}="0"
+
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="samsung", RUN+="/etc/udev/udev.chmod 0666 %p performance_level usb_charge battery_life_extender" 
+ACTION=="add", SUBSYSTEM=="leds", KERNEL=="samsung::kbd_backlight", RUN+="/etc/udev/udev.chmod 0666 %p brightness trigger"
+ACTION=="add", SUBSYSTEM=="rfkill", ATTR{type}=="bluetooth", ATTR{name}=="samsung-bluetooth", RUN+="/etc/udev/udev.chmod 0666 %p state"
+ACTION=="add", SUBSYSTEM=="rfkill", ATTR{type}=="wlan", ATTR{name}=="samsung-wlan", RUN+="/etc/udev/udev.chmod 0666 %p state"
+
+ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="acpi_video0", ATTR{type}=="firmware", RUN+="/etc/udev/udev.chmod 0666 %p brightness"
+
+SUBSYSTEM=="power_supply", KERNEL=="ADP1", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="/bin/systemctl start power-ac.target"
+SUBSYSTEM=="power_supply", KERNEL=="ADP1", ATTR{type}=="Mains", ATTR{online}=="0", RUN+="/bin/systemctl start power-battery.target"
