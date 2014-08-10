@@ -3,15 +3,17 @@
 PATH=$HOME/tools/idea/bin:$HOME/tools/mongodb/bin:$HOME/tools/eclipse:$PATH
 export PATH
 
-syndaemon -d -R -k -i 1
-systemctl --user start wm.target
+xrandr --output HDMI1 --auto --primary --output HDMI2 --auto --right-of HDMI1
+
+pacmd set-card-profile alsa_card.pci-0000_00_1b.0 output:analog-stereo
+pacmd set-sink-port alsa_output.pci-0000_00_1b.0.analog-stereo analog-output-headphones
 
 xset r rate 200 30
-setxkbmap -layout us,ru -option grp:rctrl_rshift_toggle,caps:escape,compose:ralt
+setxkbmap -layout us,ru -option grp:rctrl_rshift_toggle,caps:escape,compose:menu
 hsetroot -solid "#000000"
 
 if [ -x /usr/bin/compton ] ; then
-  /usr/bin/compton -bGC &
+  /usr/bin/compton -bGC --backend glx --vsync opengl --sw-opti --glx-no-stencil &
 fi
 if [ -x /usr/bin/xautolock ] ; then
   /usr/bin/xautolock -detectsleep -time 1 -locker 'i3lock -d -c 333333' &
