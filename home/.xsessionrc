@@ -7,6 +7,7 @@ syndaemon -d -R -k -i 1
 systemctl --user start wm.target
 
 xset r rate 200 30
+xset b off
 setxkbmap -layout us,ru -option grp:rctrl_rshift_toggle,caps:escape,compose:ralt
 hsetroot -solid "#000000"
 
