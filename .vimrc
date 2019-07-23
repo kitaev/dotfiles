@@ -1,139 +1,149 @@
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-
-" Themes
-Plugin 'altercation/vim-colors-solarized'
-
-" Syntax
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'skammer/vim-css-color'
-Plugin 'elzr/vim-json'
-Plugin 'pangloss/vim-javascript'
-Plugin 'digitaltoad/vim-jade'
-
-" Functionality
-
-" ### Indispensable
-
-" ctrlp is file fuzzy search
-Plugin 'kien/ctrlp.vim'
-"Airline provides a stylish appearance for the styleline
-Plugin 'bling/vim-airline'
-"Provides Sublime-Text like smart completion of braces, parens and such
-Plugin 'Raimondi/delimitMate'
-
-" ### Use sometimes
-
-" fugitive provides git bindings in Vim.  Don't use too much, but useful for blame
-Plugin 'tpope/vim-fugitive'
-" Provides easy shortcuts for commenting out lines
-Plugin 'scrooloose/nerdcommenter'
-"
-Plugin 'nathanaelkane/vim-indent-guides'
-"
-Plugin 'camelcasemotion'
-call vundle#end()
-filetype plugin indent on
-runtime! macros/matchit.vim
-
-syntax on
-set t_Co=256
-set background=dark
-colorscheme solarized
-if has("win32")
-  set gfn=Inconsolata\ for\ Powerline:h20
-else
-  set gfn=Inconsolata\ for\ Powerline\ 20
+if $TERM == "screen-256color"
+      set t_Co=256
 endif
-set noshowmode
 
-set encoding=utf-8
-set number
-set relativenumber
-set statusline=%<%t\ %h%m%r%y%=%-14.(%l,%c%V%)\ %P
-set backspace=indent,eol,start
-set history=1024
-set showcmd
-set gcr=a:blinkon0
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Sets how many lines of history VIM has to remember
+set history=700
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" Set to auto read when a file is changed from the outside
 set autoread
-set laststatus=2
-set hidden
-set shortmess=filnxtToOI
+set autowrite
 
+set esckeys
+" set notimeout
+" set nottimeout
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set 7 lines to the cursor - when moving vertically using j/k
+set so=7
+
+" Turn on the WiLd menu
+set wildmenu
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+
+" Height of the command bar
+set cmdheight=1
+
+" A buffer becomes hidden when it is abandoned
+set hid
+
+" Configure backspace so it acts as it should act
+" set backspace=eol,start,indent
+" set whichwrap+=<,>,h,l
+set nowrap
+
+" When searching try to be smart about cases 
+set smartcase
+
+" Highlight search results
+set hlsearch
+
+" Makes search act like search in modern browsers
+set incsearch 
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw 
 set ttyfast
 
-set incsearch
-set hlsearch
-set viminfo='100,f1
+" For regular expressions turn magic on
+set magic
 
-set noswapfile
-set nobackup
-set nowritebackup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" Show matching brackets when text indicator is over them
+set showmatch 
+" How many tenths of a second to blink when matching brackets
+set mat=2
 
-set undodir=~/.vim/backups
-set undofile
-
-set autoindent
-set smartindent
-set smarttab
-set expandtab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-
-set nowrap
-set foldmethod=indent
-set foldnestmax=3
-set nofoldenable
-
-set wildmode=longest,list,full
-set wildmenu
-set wildignore=*~
-set wildignore+=*vim/backups*
-
-set scrolloff=5
-set sidescrolloff=15
-set sidescroll=1
-
-set visualbell
-set t_vb=
+" No annoying sound on errors
 set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
 
-set guioptions-=m
-set guioptions-=T
-set guioptions-=r
+set number
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable syntax highlighting
+syntax enable 
 
-let g:ctrlp_custom_ignore = {
-  \ 'dir': '\.git$\|node_modules$'
-  \ }
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+let g:solarized_termcolors=256
+colorscheme solarized
+set background=light
 
-map <leader>rr :source ~/.vimrc<CR>
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
 
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
 
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-sunmap w
-sunmap b
-sunmap e
 
-map <silent> <F2> :set nolist!<CR>:IndentGuidesToggle<CR>
-map <silent> <F3> :let @/ = ""<CR>
-map <silent> <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
 
-autocmd FileType c,cpp,java,php,javascript,jade,json,css autocmd BufWritePre <buffer> :%s/\s\+$//eset nocompatible
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+
+set ai "Auto indent
+set si "Smart indent
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+" Remember info about open buffers on close
+set viminfo^=%
+
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
+
+set showcmd
+" Format the status line
+
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l:%v
+set statusline=[%n]
+set statusline+=\ 
+set statusline+=%y
+set statusline+=\ 
+set statusline+=%F
+set statusline+=%=
+set statusline+=%r
+set statusline+=%m
+set statusline+=\ 
+set statusline+=%04l:%03v
+set statusline+=\ 
+
+"""""""""""""""""
+" => keys
+""""""""""""""""
+let mapleader = ","
+nnoremap <leader>c :let @/ = "" <CR>

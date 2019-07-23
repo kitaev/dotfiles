@@ -1,0 +1,7 @@
+[user]
+	name = Alexander Kitaev
+	email = alexander.kitaev@tmatesoft.com
+[push]
+	default = simple
+[credential]
+	helper = cache --timeout 28800
